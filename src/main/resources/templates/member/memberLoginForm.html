@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+
+<!-- 사용자 CSS 추가 -->
+<th:block layout:fragment="css">
+  <style>
+    .error {
+      color: #bd2130;
+    }
+  </style>
+</th:block>
+
+<div layout:fragment="content">
+
+  <form role="form" method="post" action="/members/login">
+    <div class="form-group">
+      <label th:for="email">이메일주소</label>
+      <input type="email" name="email" class="form-control" placeholder="이메일을 입력해주세요">
+    </div>
+    <div class="form-group">
+      <label th:for="password">비밀번호</label>
+      <input type="password" name="password" id="password" class="form-control" placeholder="비밀번호 입력">
+    </div>
+    <p th:if="${loginErrorMsg}" class="error" th:text="${loginErrorMsg}"></p>
+    <button class="btn btn-primary">로그인</button>
+    <button type="button" class="btn btn-primary" onClick="location.href='/members/new'">회원가입</button>
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+  </form>
+
+</div>
+
+</html>
+
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org"-->
+<!--      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"-->
+<!--      layout:decorate="~{layouts/layout1}">-->
+
+<!--&lt;!&ndash; 사용자 CSS 추가 &ndash;&gt;-->
+<!--<th:block layout:fragment="css">-->
+<!--  <style>-->
+<!--    .error {-->
+<!--      color: #bd2130;-->
+<!--    }-->
+<!--  </style>-->
+<!--</th:block>-->
+
+<!--<div layout:fragment="content">-->
+<!--  <div class="container">-->
+<!--    <div class="col-md-6 mx-auto text-center">-->
+<!--      <div class="header-title">-->
+<!--        <h1 class="wv-heading&#45;&#45;title">로그인</h1>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--    <div class="row">-->
+<!--      <div class="col-md-4 mx-auto">-->
+<!--        <form name="login" @submit.prevent="submitLoginForm">-->
+<!--          <div class="form-group">-->
+<!--            <input type="email" name="email"  class="form-control my-input" id="email" autocomplete="on" placeholder="이메일" v-model="email">-->
+<!--          </div>-->
+<!--          <div class="form-group">-->
+<!--            <input type="password" name="password"  class="form-control my-input" id="password" autocomplete="on" placeholder="비밀번호" v-model="password">-->
+<!--          </div>-->
+<!--          <div class="text-center ">-->
+<!--            <button type="submit" class=" btn btn-block send-button tx-tfm">로그인</button>-->
+<!--          </div>-->
+<!--          <div class="col-md-12 ">-->
+<!--            <div class="login-or">-->
+<!--              <hr class="hr-or">-->
+<!--              <span class="span-or">or</span>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="form-group d-flex justify-content-center">-->
+<!--&lt;!&ndash;            구글&ndash;&gt;-->
+<!--            <a href="/members/login/oauth2/code/google">-->
+<!--              <img class="bi me-2" width="55" height="55" src="https://user-images.githubusercontent.com/101097019/242519403-b3b882bc-0e3c-4d28-aeb5-ee5757bfef7b.png" />-->
+<!--            </a>-->
+<!--&lt;!&ndash;            네이버&ndash;&gt;-->
+<!--&lt;!&ndash;            <a href="https://nid.naver.com/oauth2.0/preview?client_id=jF5T5wpFMO60pLbchA5G&client_icon=https://ndevthumb-phinf.pstatic.net/20230601_17/1685603514507o9KYJ_PNG/AVWexyhRNmP920230601161154.png&client_name=네모상자&profile_scope=%7B%22optional%22:%5B%5D,%22required%22:%5B%22NAME%22,%22NAVEREMAIL%22%5D%7D&service_scope=%7B%22default%22:%5B%5D%7D&agreement=%7B%22clientId%22:%22jF5T5wpFMO60pLbchA5G%22,%22available%22:false,%22allowUnder14%22:true,%22agreementInfos%22:%5B%5D%7D">&ndash;&gt;-->
+<!--            <a href="/members/login/oauth2/code/naver">-->
+<!--&lt;!&ndash;            <a href="">&ndash;&gt;-->
+<!--              <img class="bi me-2" width="55" height="55" src="https://user-images.githubusercontent.com/101097019/242519421-493a70a5-79a1-477f-bf98-8e8e3465153a.png" />-->
+<!--            </a>-->
+<!--&lt;!&ndash;            카카오&ndash;&gt;-->
+<!--            <a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=beea9f52a5f72afed508a8dafab8b519&redirect_uri=https%3A%2F%2Flocalhost%3A8080%2Foauth">-->
+<!--&lt;!&ndash;            <a href="/members/login/oauth2/authorization/kakao">&ndash;&gt;-->
+<!--&lt;!&ndash;            <a href="/members/login/oauth/kakao">&ndash;&gt;-->
+<!--              <img class="bi me-2" width="55" height="55" src="https://user-images.githubusercontent.com/101097019/242519414-89650867-2324-42a9-90a3-099f5b2b0ad9.png" />-->
+<!--            </a>-->
+<!--          </div>-->
+<!--        </form>-->
+<!--      </div>-->
+<!--    </div>-->
+
+<!--<script>-->
+<!--  import router from "@/router";-->
+<!--  import store from "@/store";-->
+
+<!--  export default {-->
+<!--    data() {-->
+<!--      return {-->
+<!--        email: '',-->
+<!--        password: ''-->
+<!--      }-->
+<!--    },-->
+<!--    methods: {-->
+<!--      submitLoginForm() {-->
+<!--        const loginForm = {-->
+<!--          username: this.email,-->
+<!--          password: this.password-->
+<!--        }-->
+
+<!--        this.$axios.post('/api/user/login', loginForm).then(res => {-->
+<!--          if (res.status === 200) {-->
+<!--            store.commit('setToken', res.data)-->
+<!--            sessionStorage.setItem('accessToken', res.data);-->
+<!--            window.alert('로그인하였습니다');-->
+<!--            router.push({path:'/'})-->
+<!--          }-->
+<!--        }).catch(() => {-->
+<!--          window.alert('로그인에 실패하였습니다.')-->
+<!--        })-->
+<!--      }-->
+<!--    }-->
+<!--  }-->
+<!--</script>-->
+
+<!--<style scoped>-->
+<!--  .form-group {-->
+<!--    padding-bottom: 1em;-->
+<!--  }-->
+
+<!--  .send-button {-->
+<!--    background: #FC5030;-->
+<!--    width: 100%;-->
+<!--    font-weight: 600;-->
+<!--    color: #fff;-->
+<!--    padding: 8px 25px;-->
+<!--  }-->
+
+<!--  input[type=number]::-webkit-inner-spin-button,-->
+<!--  input[type=number]::-webkit-outer-spin-button {-->
+<!--    -webkit-appearance: none;-->
+<!--    margin: 0;-->
+<!--  }-->
+
+<!--  .g-button {-->
+<!--    color: #fff !important;-->
+<!--    border: 1px solid #EA4335;-->
+<!--    background: #ea4335 !important;-->
+<!--    width: 100%;-->
+<!--    font-weight: 600;-->
+<!--    color: #fff;-->
+<!--    padding: 8px 25px;-->
+<!--  }-->
+
+<!--  .my-input {-->
+<!--    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);-->
+<!--    cursor: text;-->
+<!--    padding: 8px 10px;-->
+<!--    transition: border .1s linear;-->
+<!--  }-->
+
+<!--  .header-title {-->
+<!--    margin: 4rem;-->
+<!--  }-->
+
+<!--  h1 {-->
+<!--    font-size: 31px;-->
+<!--    line-height: 40px;-->
+<!--    font-weight: 600;-->
+<!--    color: #4c5357;-->
+<!--  }-->
+
+<!--  h2 {-->
+<!--    color: #5e8396;-->
+<!--    font-size: 21px;-->
+<!--    line-height: 32px;-->
+<!--    font-weight: 400;-->
+<!--  }-->
+
+<!--  .login-or {-->
+<!--    position: relative;-->
+<!--    color: #aaa;-->
+<!--    margin-top: 10px;-->
+<!--    margin-bottom: 10px;-->
+<!--    padding-top: 10px;-->
+<!--    padding-bottom: 10px;-->
+<!--  }-->
+
+<!--  .span-or {-->
+<!--    display: block;-->
+<!--    position: absolute;-->
+<!--    left: 50%;-->
+<!--    top: -2px;-->
+<!--    margin-left: -25px;-->
+<!--    background-color: #fff;-->
+<!--    width: 50px;-->
+<!--    text-align: center;-->
+<!--  }-->
+
+<!--  .hr-or {-->
+<!--    height: 1px;-->
+<!--    margin-top: 0px !important;-->
+<!--    margin-bottom: 0px !important;-->
+<!--  }-->
+
+<!--  @media screen and (max-width: 480px) {-->
+<!--    h1 {-->
+<!--      font-size: 26px;-->
+<!--    }-->
+
+<!--    h2 {-->
+<!--      font-size: 20px;-->
+<!--    }-->
+<!--  }-->
+<!--</style>-->
+<!--  </div>-->
+<!--</div>-->
+<!--</html>-->
